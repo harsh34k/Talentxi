@@ -23,7 +23,7 @@ const App: React.FC = () => {
   const [topCandidates, setTopCandidates] = useState<Candidate[]>([]);
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [question, setQuestion] = useState("");
-  const [sessionId, setSessionId] = useState<string>(
+  const [sessionId, _] = useState<string>(
     String(Math.floor(Math.random() * 1000000))
   );
   const [isUploading, setIsUploading] = useState(false);
@@ -206,8 +206,8 @@ const App: React.FC = () => {
               whileHover={{ scale: isUploading ? 1 : 1.05 }}
               whileTap={{ scale: isUploading ? 1 : 0.95 }}
               className={`px-6 py-3 rounded-full font-medium text-white flex items-center justify-center ${isUploading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
                 }`}
             >
               {isUploading ? (
@@ -227,8 +227,8 @@ const App: React.FC = () => {
               whileHover={{ scale: isUploaded && !isFetchingCandidates ? 1.05 : 1 }}
               whileTap={{ scale: isUploaded && !isFetchingCandidates ? 0.95 : 1 }}
               className={`px-6 py-3 rounded-full font-medium flex items-center justify-center ${isFetchingCandidates || !isUploaded
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200 shadow-md"
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200 shadow-md"
                 }`}
             >
               {isFetchingCandidates ? (
@@ -334,8 +334,8 @@ const App: React.FC = () => {
             whileHover={{ scale: isCandidatesFetched && !isAskingQuestion ? 1.05 : 1 }}
             whileTap={{ scale: isCandidatesFetched && !isAskingQuestion ? 0.95 : 1 }}
             className={`w-full max-w-xs mx-auto px-6 py-3 rounded-full font-medium text-white ${isAskingQuestion || !isCandidatesFetched
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
               }`}
           >
             {isAskingQuestion ? (
@@ -355,8 +355,8 @@ const App: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4 }}
                 className={`p-4 rounded-lg ${msg.role === "user"
-                    ? "bg-indigo-50 text-indigo-900 ml-8"
-                    : "bg-gray-50 text-gray-900 mr-8"
+                  ? "bg-indigo-50 text-indigo-900 ml-8"
+                  : "bg-gray-50 text-gray-900 mr-8"
                   }`}
               >
                 <strong className="block text-sm font-medium mb-1">
