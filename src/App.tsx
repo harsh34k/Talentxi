@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Upload, FileText, Search, MessageCircle, Star } from "lucide-react";
+import { getVercelOidcToken } from "@vercel/functions/oidc";
 
 interface Candidate {
   id: string;
@@ -47,6 +48,7 @@ const App: React.FC = () => {
 
   const handleUpload = async () => {
     if (!jobDescription) return setError("Please enter a job description");
+    const token = await getVercelOidcToken()
     if (files.length === 0) return setError("Please upload at least one resume");
 
     const formData = new FormData();
@@ -57,8 +59,9 @@ const App: React.FC = () => {
       setIsUploading(true);
       setError(null);
       await axios.post(`${import.meta.env.VITE_API_URL}/upload_pdfs/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
       });
+      // "Authorization": `Bearer ${token}
       setIsUploaded(true);
       alert("Resumes uploaded successfully!");
     } catch (err) {
@@ -71,7 +74,9 @@ const App: React.FC = () => {
 
   const handleGetStarted = async () => {
     if (!jobDescription) return setError("Please enter a job description");
+
     const formData = new FormData();
+    const token = await getVercelOidcToken()
     formData.append("job_description", jobDescription);
 
     try {
@@ -79,7 +84,9 @@ const App: React.FC = () => {
       setError(null);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/ask/top_candidates/`,
-        formData
+        formData, {
+        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
+      }
       );
       setTopCandidates(res.data.top_candidates || []);
       setIsCandidatesFetched(true);
@@ -93,6 +100,7 @@ const App: React.FC = () => {
 
   const handleAskQuestion = async () => {
     if (!question) return setError("Please enter a question");
+    const token = await getVercelOidcToken()
     const formData = new FormData();
     formData.append("session_id", sessionId);
     formData.append("question", question);
@@ -101,7 +109,9 @@ const App: React.FC = () => {
       setIsAskingQuestion(true);
       setError(null);
       setChatMessages((prev) => [...prev, { role: "user", content: question }]);
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/ask/`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/ask/`, formData, {
+        headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` },
+      });
       const responseText = res.data.response || "No response";
       setChatMessages((prev) => [...prev, { role: "assistant", content: responseText }]);
       setQuestion("");
