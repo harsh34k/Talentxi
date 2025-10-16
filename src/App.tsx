@@ -140,7 +140,7 @@ const App: React.FC = () => {
       {/* Header */}
       <header className="sticky top-0 bg-white/95 backdrop-blur-lg py-4 px-6 lg:px-12 z-20 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-indigo-700 tracking-tight">ResumeMatcher</h1>
+          <h1 className="text-xl font-semibold text-indigo-700 tracking-tight">Talentxi</h1>
           <nav className="flex space-x-8">
             <a href="#get-started" className="text-gray-600 hover:text-indigo-700 font-medium transition-colors">
               Get Started
@@ -164,11 +164,15 @@ const App: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <h2 className="text-4xl font-semibold text-gray-900 mb-6 leading-tight tracking-tight">
-            Find Your Dream Team with Ease
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
+            Find Your Star Candidate in Seconds using AI
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Say goodbye to resume overload. Upload your files, describe the role, and let our AI find the perfect candidates in minutes.
+            {/* Say goodbye to resume overload. Upload your files, describe the role, and let our AI find the perfect candidates in minutes. */}
+            {/* generate me something better according to my title it should also incorporatae that you can chat with llm find the data of resumes you upload to know more about your candidates */}
+            Say goodbye to resume overload. Upload thousands of resumes, define your dream role, and let our AI pinpoint top candidates in seconds. Plus, dive deeper with real-time chat to answer any candidate-related question instantly.
+
+
           </p>
           <a
             href="#get-started"
@@ -258,7 +262,7 @@ const App: React.FC = () => {
         {/* Features Section */}
         <section id="features" className="space-y-10">
           <h3 className="text-2xl font-semibold text-gray-900 text-center">
-            Why ResumeMatcher Stands Out
+            Why Talentxi Stands Out
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             <motion.div
@@ -391,7 +395,7 @@ const App: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <p className="text-gray-600 text-sm mb-4 italic">
-                "ResumeMatcher saved us hours of manual screening. It's like having an extra team member!"
+                "Talentxi saved us hours of manual screening. It's like having an extra team member!"
               </p>
               <p className="text-sm font-medium">Alex Rivera, HR Lead at TechCorp</p>
             </div>
@@ -416,7 +420,7 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto text-center space-y-6">
           <h4 className="text-2xl font-semibold">Transform Your Hiring Today</h4>
           <p className="text-indigo-200 max-w-xl mx-auto text-sm leading-relaxed">
-            Join hiring teams worldwide using ResumeMatcher to find top talent effortlessly.
+            Join hiring teams worldwide using Talentxi to find top talent effortlessly.
           </p>
           <a
             href="#get-started"
@@ -424,7 +428,7 @@ const App: React.FC = () => {
           >
             Get Started <span className="ml-2">→</span>
           </a>
-          <p className="text-sm text-indigo-300">© 2025 ResumeMatcher. All rights reserved.</p>
+          <p className="text-sm text-indigo-300">© 2025 Talentxi. All rights reserved.</p>
         </div>
       </footer>
     </div>
