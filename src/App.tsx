@@ -43,8 +43,19 @@ const App: React.FC = () => {
   }, [isCandidatesFetched, topCandidates]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setFiles(Array.from(e.target.files));
+    if (!e.target.files) return;
+
+    const selectedFiles = Array.from(e.target.files);
+
+    if (selectedFiles.length > 10) {
+      setError("You can upload a maximum of 10 resumes only.");
+      setFiles([]); // clear files if over limit
+    } else {
+      setError(null);
+      setFiles(selectedFiles);
+    }
   };
+
 
   const handleUpload = async () => {
     if (!jobDescription) return setError("Please enter a job description");
@@ -170,7 +181,8 @@ const App: React.FC = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
             {/* Say goodbye to resume overload. Upload your files, describe the role, and let our AI find the perfect candidates in minutes. */}
             {/* generate me something better according to my title it should also incorporatae that you can chat with llm find the data of resumes you upload to know more about your candidates */}
-            Say goodbye to resume overload. Upload thousands of resumes, define your dream role, and let our AI pinpoint top candidates in seconds. Plus, dive deeper with real-time chat to answer any candidate-related question instantly.
+            Say goodbye to resume overload. Upload up to 10 resumes, define your dream role, and let our AI pinpoint top candidates in seconds. Plus, chat in real-time to explore insights about your candidates instantly.
+
 
 
           </p>
