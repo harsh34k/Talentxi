@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Upload, FileText, Search, MessageCircle, Star } from "lucide-react";
 import { getVercelOidcToken } from "@vercel/functions/oidc";
+import { Menu, X } from 'lucide-react';
 
 interface Candidate {
   id: string;
@@ -33,7 +34,8 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [isCandidatesFetched, setIsCandidatesFetched] = useState(false);
-  const topCandidatesRef = useRef<HTMLDivElement>(null); // Ref for Top Matches section
+  const topCandidatesRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Scroll to Top Matches when candidates are fetched
   useEffect(() => {
@@ -149,10 +151,14 @@ const App: React.FC = () => {
       ></div>
 
       {/* Header */}
-      <header className="sticky top-0 bg-white/95 backdrop-blur-lg py-4 px-6 lg:px-12 z-20 shadow-sm">
+      <header className="sticky top-0 bg-white/95 backdrop-blur-lg py-4 px-4 sm:px-6 lg:px-12 z-20 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-indigo-700 tracking-tight">Talentxi</h1>
-          <nav className="flex space-x-8">
+          <h1 className="text-lg sm:text-xl font-semibold text-indigo-700 tracking-tight">
+            Talentxi
+          </h1>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-6 lg:space-x-8">
             <a href="#get-started" className="text-gray-600 hover:text-indigo-700 font-medium transition-colors">
               Get Started
             </a>
@@ -163,7 +169,43 @@ const App: React.FC = () => {
               Testimonials
             </a>
           </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 text-gray-600 hover:text-indigo-700 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <nav className="md:hidden mt-4 pb-4 flex flex-col space-y-3 border-t pt-4">
+            <a
+              href="#get-started"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-600 hover:text-indigo-700 font-medium transition-colors px-2 py-1"
+            >
+              Get Started
+            </a>
+            <a
+              href="#features"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-600 hover:text-indigo-700 font-medium transition-colors px-2 py-1"
+            >
+              Features
+            </a>
+            <a
+              href="#testimonials"
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-600 hover:text-indigo-700 font-medium transition-colors px-2 py-1"
+            >
+              Testimonials
+            </a>
+          </nav>
+        )}
       </header>
 
       {/* Main Content */}
@@ -202,7 +244,7 @@ const App: React.FC = () => {
           {error && <p className="text-red-500 text-center font-medium">{error}</p>}
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700 flex items-center">
+              <label className=" text-sm font-medium text-gray-700 flex items-center ">
                 <FileText className="w-5 h-5 mr-2 text-indigo-600" /> Upload Resumes (PDFs)
               </label>
               <input
@@ -225,46 +267,48 @@ const App: React.FC = () => {
               />
             </div>
           </div>
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto justify-center items-center">
+            {/* Upload Button */}
             <motion.button
               onClick={handleUpload}
               disabled={isUploading}
-              whileHover={{ scale: isUploading ? 1 : 1.05 }}
-              whileTap={{ scale: isUploading ? 1 : 0.95 }}
-              className={`px-6 py-3 rounded-full font-medium text-white flex items-center justify-center ${isUploading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700 shadow-md"
+              whileHover={{ scale: !isUploading ? 1.03 : 1 }}
+              whileTap={{ scale: !isUploading ? 0.97 : 1 }}
+              className={`w-full max-w-[200px] sm:w-auto px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-medium flex items-center justify-center text-sm sm:text-base transition-all ${isUploading
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md"
                 }`}
             >
               {isUploading ? (
                 <div className="flex items-center">
-                  <div className="w-5 h-5 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   Uploading...
                 </div>
               ) : (
                 <>
-                  <Upload className="w-5 h-5 mr-2" /> Upload Resumes
+                  <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Upload Resumes
                 </>
               )}
             </motion.button>
+            {/* Find Top Talent Button */}
             <motion.button
               onClick={handleGetStarted}
               disabled={isFetchingCandidates || !isUploaded}
-              whileHover={{ scale: isUploaded && !isFetchingCandidates ? 1.05 : 1 }}
-              whileTap={{ scale: isUploaded && !isFetchingCandidates ? 0.95 : 1 }}
-              className={`px-6 py-3 rounded-full font-medium flex items-center justify-center ${isFetchingCandidates || !isUploaded
+              whileHover={{ scale: isUploaded && !isFetchingCandidates ? 1.03 : 1 }}
+              whileTap={{ scale: isUploaded && !isFetchingCandidates ? 0.97 : 1 }}
+              className={`w-full max-w-[200px] sm:w-auto px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-medium flex items-center justify-center text-sm sm:text-base transition-all ${isFetchingCandidates || !isUploaded
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200 shadow-md"
                 }`}
             >
               {isFetchingCandidates ? (
                 <div className="flex items-center">
-                  <div className="w-5 h-5 mr-2 border-2 border-indigo-700 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 mr-2 border-2 border-indigo-700 border-t-transparent rounded-full animate-spin"></div>
                   Processing...
                 </div>
               ) : (
                 <>
-                  <Star className="w-5 h-5 mr-2" /> Find Top Talent
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Find Top Talent
                 </>
               )}
             </motion.button>
